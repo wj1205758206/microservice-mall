@@ -1,35 +1,22 @@
-package microservice.mall.product;
+package microservice.mall.thirdparty;
 
-import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.OSSClientBuilder;
-import microservice.mall.product.entity.BrandEntity;
-import microservice.mall.product.service.BrandService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 @SpringBootTest
-class MallProductApplicationTests {
-
-    @Autowired
-    private BrandService brandService;
+class MallThirdPartyApplicationTests {
 
     @Resource
-    private OSSClient ossClient;
+    OSSClient ossClient;
 
     @Test
     void contextLoads() {
-
-        BrandEntity brandEntity = new BrandEntity();
-        brandEntity.setName("华为");
-        brandService.save(brandEntity);
-        System.out.println("保存成功！");
     }
 
     @Test
@@ -52,5 +39,4 @@ class MallProductApplicationTests {
         ossClient.shutdown();
 
     }
-
 }

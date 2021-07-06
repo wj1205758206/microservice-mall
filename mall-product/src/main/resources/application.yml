@@ -8,6 +8,11 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+    alicloud:
+      access-key: LTAI5t6RSoyZyGZPRYXMx1Za
+      secret-key: f9KOvQDlGiEQ50bgTGRxm3NJMEp4Yk
+      oss:
+        endpoint: oss-cn-shanghai.aliyuncs.com
   application:
     name: mall-product
 mybatis-plus:
@@ -23,3 +28,4 @@ server:
 logging:
   level:
     microservice.mall: debug
+
