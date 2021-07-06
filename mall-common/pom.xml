@@ -13,6 +13,7 @@
     <description>每一个微服务公共的依赖</description>
 
     <dependencies>
+
         <!--nacos-config 配置管理-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

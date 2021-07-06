@@ -1,0 +1,17 @@
+
+spring:
+  application:
+    name: mall-third-party
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    alicloud:
+      access-key: LTAI5t6RSoyZyGZPRYXMx1Za
+      secret-key: f9KOvQDlGiEQ50bgTGRxm3NJMEp4Yk
+      oss:
+        endpoint: oss-cn-shanghai.aliyuncs.com
+        bucket: microservice-mall
+server:
+  port: 30000
+

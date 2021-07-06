@@ -8,6 +8,11 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+    alicloud:
+      access-key: LTAI5t6RSoyZyGZPRYXMx1Za
+      secret-key: f9KOvQDlGiEQ50bgTGRxm3NJMEp4Yk
+      oss:
+        endpoint: oss-cn-shanghai.aliyuncs.com
   application:
     name: mall-product
 mybatis-plus:
@@ -15,5 +20,12 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
 server:
   port: 10000
+logging:
+  level:
+    microservice.mall: debug
+
