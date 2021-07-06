@@ -47,7 +47,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         }).collect(Collectors.toList());
 
 
-        return categoryEntities;
+        return level1Menus;
     }
 
     @Override
