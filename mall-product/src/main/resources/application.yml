@@ -9,10 +9,10 @@ spring:
       discovery:
         server-addr: localhost:8848
     alicloud:
-      access-key: LTAI5t6RSoyZyGZPRYXMx1Za
-      secret-key: f9KOvQDlGiEQ50bgTGRxm3NJMEp4Yk
+      access-key:
+      secret-key:
       oss:
-        endpoint: oss-cn-shanghai.aliyuncs.com
+        endpoint:
   application:
     name: mall-product
 mybatis-plus:
