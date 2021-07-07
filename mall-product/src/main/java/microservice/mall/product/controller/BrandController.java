@@ -61,9 +61,9 @@ public class BrandController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("product:brand:save")
-    public R save(@Valid @RequestBody BrandEntity brand, BindingResult bindingResult) {
-        Map<String, String> map = new HashMap<>();
+    //@RequiresPermissions("product:brand:save")
+    public R save(@Valid @RequestBody BrandEntity brand /*BindingResult bindingResult*/) {
+/*        Map<String, String> map = new HashMap<>();
         if (bindingResult.hasErrors()) {
             bindingResult.getFieldErrors().forEach((item) -> {
                 String field = item.getField();
@@ -74,9 +74,8 @@ public class BrandController {
 
         } else {
             brandService.save(brand);
-        }
-
-
+        }*/
+        brandService.save(brand);
         return R.ok();
     }
 
