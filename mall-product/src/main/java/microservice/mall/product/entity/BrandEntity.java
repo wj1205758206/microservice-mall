@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import lombok.Data;
+import microservice.mall.common.valid.AddGroup;
+import microservice.mall.common.valid.UpdateGroup;
 import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.*;
@@ -26,18 +28,20 @@ public class BrandEntity implements Serializable {
     /**
      * 品牌id
      */
+    @NotNull(message = "修改必须指定品牌id", groups = {UpdateGroup.class})
+    @Null(message = "新增不能指定id", groups = {AddGroup.class, UpdateGroup.class})
     @TableId
     private Long brandId;
     /**
      * 品牌名
      */
-    @NotBlank
+    @NotBlank(message = "品牌名必须提交", groups = {AddGroup.class, UpdateGroup.class})
     private String name;
     /**
      * 品牌logo地址
      */
-    @NotEmpty
-    @URL(message = "logo必须是一个合法的url地址")
+    @NotEmpty(groups = {AddGroup.class})
+    @URL(message = "logo必须是一个合法的url地址", groups = {AddGroup.class, UpdateGroup.class})
     private String logo;
     /**
      * 介绍
@@ -50,14 +54,14 @@ public class BrandEntity implements Serializable {
     /**
      * 检索首字母
      */
-    @NotEmpty
-    @Pattern(regexp = "/^[a-zA-z]$/", message = "检索首字母必须是a-z或者A-Z")
+    @NotEmpty(groups = {AddGroup.class})
+    @Pattern(regexp = "/^[a-zA-z]$/", message = "检索首字母必须是a-z或者A-Z", groups = {AddGroup.class, UpdateGroup.class})
     private String firstLetter;
     /**
      * 排序
      */
-    @NotNull
-    @Min(value = 0, message = "排序必须是一个大于等于0的整数")
+    @NotNull(groups = {AddGroup.class})
+    @Min(value = 0, message = "排序必须是一个大于等于0的整数", groups = {AddGroup.class, UpdateGroup.class})
     private Integer sort;
 
 }
