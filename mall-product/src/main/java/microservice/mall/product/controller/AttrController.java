@@ -1,20 +1,16 @@
 package microservice.mall.product.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import microservice.mall.product.entity.AttrEntity;
-import microservice.mall.product.service.AttrService;
 import microservice.mall.common.utils.PageUtils;
 import microservice.mall.common.utils.R;
+import microservice.mall.product.entity.AttrEntity;
+import microservice.mall.product.service.AttrService;
+import microservice.mall.product.vo.AttrVo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 
@@ -58,9 +54,9 @@ public class AttrController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("product:attr:save")
-    public R save(@RequestBody AttrEntity attr){
-		attrService.save(attr);
+    //@RequiresPermissions("product:attr:save")
+    public R save(@RequestBody AttrVo attr){
+		attrService.saveAttr(attr);
 
         return R.ok();
     }

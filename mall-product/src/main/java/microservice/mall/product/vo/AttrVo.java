@@ -1,30 +1,16 @@
-package microservice.mall.product.entity;
+package microservice.mall.product.vo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-
-import java.io.Serializable;
-import java.util.Date;
 
 import lombok.Data;
 
-/**
- * 商品属性
- *
- * @author wjian
- * @email wjian@gmail.com
- * @date 2021-07-04 09:48:57
- */
 @Data
-@TableName("pms_attr")
-public class AttrEntity implements Serializable {
+public class AttrVo {
     private static final long serialVersionUID = 1L;
 
     /**
      * 属性id
      */
-    @TableId
+
     private Long attrId;
     /**
      * 属性名
@@ -59,6 +45,8 @@ public class AttrEntity implements Serializable {
      */
     private Integer showDesc;
 
-
-
+    /**
+     * 属性所属分组的id
+     */
+    private Long AttrGroupId;
 }

@@ -31,22 +31,21 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 
     @Override
     public PageUtils queryPage(Map<String, Object> params, Long catelogId) {
+        //如果有key还需要模糊查询
+        QueryWrapper<AttrGroupEntity> attrGroupEntityQueryWrapper = new QueryWrapper<>();
+        String key = (String) params.get("key");
+        if (!StringUtils.isEmpty(key)) {
+            attrGroupEntityQueryWrapper.and((obj) -> {
+                obj.eq("attr_group_id", key).or().like("attr_group_name", key);
+            });
+        }
         //如果catelogId == 0 则查出所有的分类的分组属性
         if (catelogId == 0) {
-            IPage<AttrGroupEntity> page = this.page(new Query<AttrGroupEntity>().getPage(params), new QueryWrapper<>());
+            IPage<AttrGroupEntity> page = this.page(new Query<AttrGroupEntity>().getPage(params), attrGroupEntityQueryWrapper);
             return new PageUtils(page);
         } else {
             //查出指定categlogId的分组属性
-            QueryWrapper<AttrGroupEntity> attrGroupEntityQueryWrapper = new QueryWrapper<>();
             attrGroupEntityQueryWrapper.eq("catelog_id", catelogId);
-            //如果有key还需要模糊查询
-            String key = (String) params.get("key");
-            if (!StringUtils.isEmpty(key)) {
-                attrGroupEntityQueryWrapper.and((obj) -> {
-                    obj.eq("attr_group_id", key).or().like("attr_group_name", key);
-                });
-            }
-
             IPage<AttrGroupEntity> page = this.page(new Query<AttrGroupEntity>().getPage(params), attrGroupEntityQueryWrapper);
             return new PageUtils(page);
         }
