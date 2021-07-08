@@ -1,5 +1,7 @@
 package microservice.mall.product.service.impl;
 
+import microservice.mall.product.service.CategoryBrandRelationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,10 +19,14 @@ import microservice.mall.common.utils.Query;
 import microservice.mall.product.dao.CategoryDao;
 import microservice.mall.product.entity.CategoryEntity;
 import microservice.mall.product.service.CategoryService;
+import org.springframework.util.StringUtils;
 
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+    @Autowired
+    private CategoryBrandRelationService categoryBrandRelationService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -67,6 +73,23 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
         Collections.reverse(parentPath);
         return parentPath.toArray(new Long[parentPath.size()]);
+
+    }
+
+    /**
+     * 级联更新所有关联的数据
+     *
+     * @param category
+     */
+    @Override
+    public void updateCascade(CategoryEntity category) {
+        //更新自己
+        this.updateById(category);
+        //更新其它表关联的数据
+        if (!StringUtils.isEmpty(category.getName())) {
+            categoryBrandRelationService.updateCategory(category.getCatId(), category.getName());
+        }
+
 
     }
 
