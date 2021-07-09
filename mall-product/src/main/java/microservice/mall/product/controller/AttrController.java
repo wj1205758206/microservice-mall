@@ -5,6 +5,7 @@ import microservice.mall.common.utils.PageUtils;
 import microservice.mall.common.utils.R;
 import microservice.mall.product.entity.AttrEntity;
 import microservice.mall.product.service.AttrService;
+import microservice.mall.product.vo.AttrRespVo;
 import microservice.mall.product.vo.AttrVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +43,13 @@ public class AttrController {
     /**
      * 获取分类规格参数列表
      */
-    @GetMapping("/base/list/{catelogId}")
+    @GetMapping("/{attrType}/list/{catelogId}")
     //@RequiresPermissions("product:attr:list")
     public R baseAttrList(@RequestParam Map<String, Object> params,
-                          @PathVariable("catelogId") Long catelogId) {
+                          @PathVariable("catelogId") Long catelogId,
+                          @PathVariable("attrType") String type) {
 
-        PageUtils page = attrService.queryBaseAttrPage(params, catelogId);
+        PageUtils page = attrService.queryBaseAttrPage(params, catelogId, type);
 
         return R.ok().put("page", page);
     }
@@ -57,11 +59,11 @@ public class AttrController {
      * 信息
      */
     @RequestMapping("/info/{attrId}")
-    @RequiresPermissions("product:attr:info")
+    //@RequiresPermissions("product:attr:info")
     public R info(@PathVariable("attrId") Long attrId) {
-        AttrEntity attr = attrService.getById(attrId);
-
-        return R.ok().put("attr", attr);
+        //AttrEntity attr = attrService.getById(attrId);
+        AttrRespVo attrRespVo = attrService.getAttrInfo(attrId);
+        return R.ok().put("attr", attrRespVo);
     }
 
     /**
@@ -80,8 +82,8 @@ public class AttrController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("product:attr:update")
-    public R update(@RequestBody AttrEntity attr) {
-        attrService.updateById(attr);
+    public R update(@RequestBody AttrVo attr) {
+        attrService.updateAttr(attr);
 
         return R.ok();
     }
@@ -96,5 +98,15 @@ public class AttrController {
 
         return R.ok();
     }
+
+/*    @GetMapping("/sale/list/{catelog_id}")
+    public R saleAttrList(@RequestParam Map<String, Object> params,
+                          @PathVariable("catelogId") Long catelogId) {
+
+        PageUtils page = attrService.querySaleAttrPage(params, catelogId);
+
+        return R.ok().put("page", page);
+    }*/
+
 
 }
