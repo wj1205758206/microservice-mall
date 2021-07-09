@@ -1,21 +1,19 @@
 package microservice.mall.product.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import microservice.mall.product.entity.AttrEntity;
-import microservice.mall.product.service.AttrService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import microservice.mall.common.utils.PageUtils;
 import microservice.mall.common.utils.R;
+import microservice.mall.product.entity.AttrEntity;
+import microservice.mall.product.service.AttrService;
+import microservice.mall.product.vo.AttrRespVo;
+import microservice.mall.product.vo.AttrVo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.Map;
 
 
 /**
@@ -36,8 +34,22 @@ public class AttrController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("product:attr:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = attrService.queryPage(params);
+
+        return R.ok().put("page", page);
+    }
+
+    /**
+     * 获取分类规格参数列表
+     */
+    @GetMapping("/{attrType}/list/{catelogId}")
+    //@RequiresPermissions("product:attr:list")
+    public R baseAttrList(@RequestParam Map<String, Object> params,
+                          @PathVariable("catelogId") Long catelogId,
+                          @PathVariable("attrType") String type) {
+
+        PageUtils page = attrService.queryBaseAttrPage(params, catelogId, type);
 
         return R.ok().put("page", page);
     }
@@ -47,20 +59,20 @@ public class AttrController {
      * 信息
      */
     @RequestMapping("/info/{attrId}")
-    @RequiresPermissions("product:attr:info")
-    public R info(@PathVariable("attrId") Long attrId){
-		AttrEntity attr = attrService.getById(attrId);
-
-        return R.ok().put("attr", attr);
+    //@RequiresPermissions("product:attr:info")
+    public R info(@PathVariable("attrId") Long attrId) {
+        //AttrEntity attr = attrService.getById(attrId);
+        AttrRespVo attrRespVo = attrService.getAttrInfo(attrId);
+        return R.ok().put("attr", attrRespVo);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("product:attr:save")
-    public R save(@RequestBody AttrEntity attr){
-		attrService.save(attr);
+    //@RequiresPermissions("product:attr:save")
+    public R save(@RequestBody AttrVo attr) {
+        attrService.saveAttr(attr);
 
         return R.ok();
     }
@@ -70,8 +82,8 @@ public class AttrController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("product:attr:update")
-    public R update(@RequestBody AttrEntity attr){
-		attrService.updateById(attr);
+    public R update(@RequestBody AttrVo attr) {
+        attrService.updateAttr(attr);
 
         return R.ok();
     }
@@ -81,10 +93,20 @@ public class AttrController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("product:attr:delete")
-    public R delete(@RequestBody Long[] attrIds){
-		attrService.removeByIds(Arrays.asList(attrIds));
+    public R delete(@RequestBody Long[] attrIds) {
+        attrService.removeByIds(Arrays.asList(attrIds));
 
         return R.ok();
     }
+
+/*    @GetMapping("/sale/list/{catelog_id}")
+    public R saleAttrList(@RequestParam Map<String, Object> params,
+                          @PathVariable("catelogId") Long catelogId) {
+
+        PageUtils page = attrService.querySaleAttrPage(params, catelogId);
+
+        return R.ok().put("page", page);
+    }*/
+
 
 }
