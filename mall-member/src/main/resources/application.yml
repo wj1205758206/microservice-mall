@@ -8,6 +8,7 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+        ip: localhost
   application:
     name: mall-member
 mybatis-plus:
@@ -17,4 +18,3 @@ mybatis-plus:
       id-type: auto
 server:
   port: 8000
-

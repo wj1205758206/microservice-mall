@@ -59,6 +59,9 @@ public class AttrEntity implements Serializable {
      */
     private Integer showDesc;
 
-
+    /**
+     * 值类型,单选还是多选
+     */
+    private Integer valueType;
 
 }
