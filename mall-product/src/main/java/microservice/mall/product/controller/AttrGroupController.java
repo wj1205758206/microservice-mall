@@ -11,6 +11,7 @@ import microservice.mall.product.service.AttrAttrgroupRelationService;
 import microservice.mall.product.service.AttrService;
 import microservice.mall.product.service.CategoryService;
 import microservice.mall.product.vo.AttrGroupRelationVo;
+import microservice.mall.product.vo.AttrGroupWithAttrsVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,17 @@ public class AttrGroupController {
 
     @Autowired
     private AttrAttrgroupRelationService attrAttrgroupRelationService;
+
+    /**
+     * 获取分类下所有的分组以及属性
+     */
+    @GetMapping("/{catelogId}/withattr")
+    public R getAttrGroupWithAttr(@PathVariable("catelogId") Long catelogId) {
+
+        List<AttrGroupWithAttrsVo> vos = attrGroupService.getAttrGroupWithAttrByCatelogId(catelogId);
+
+        return R.ok().put("data", vos);
+    }
 
     /**
      * 查询属性分组未关联的属性
