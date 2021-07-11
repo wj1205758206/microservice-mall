@@ -1,16 +1,19 @@
 package microservice.mall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import microservice.mall.product.entity.AttrAttrgroupRelationEntity;
+import microservice.mall.product.entity.AttrEntity;
+import microservice.mall.product.service.AttrAttrgroupRelationService;
+import microservice.mall.product.service.AttrService;
 import microservice.mall.product.service.CategoryService;
+import microservice.mall.product.vo.AttrGroupRelationVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import microservice.mall.product.entity.AttrGroupEntity;
 import microservice.mall.product.service.AttrGroupService;
@@ -33,6 +36,43 @@ public class AttrGroupController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private AttrService attrService;
+
+    @Autowired
+    private AttrAttrgroupRelationService attrAttrgroupRelationService;
+
+    /**
+     * 查询属性分组未关联的属性
+     */
+    @GetMapping("/{attrgroupId}/noattr/relation")
+    public R attrNoRelationList(@RequestParam Map<String, Object> params,
+                                @PathVariable("attrgroupId") Long attrgroupId) {
+
+        PageUtils page = attrService.getNoRelationAttr(params, attrgroupId);
+        return R.ok().put("page", page);
+    }
+
+    /**
+     * 移除属性分组关联的属性
+     */
+    @PostMapping("/attr/relation/delete")
+    public R deleteRelation(@RequestBody AttrGroupRelationVo[] vos) {
+        attrService.deleteRelation(vos);
+        return R.ok();
+    }
+
+    /**
+     * 获取属性分组关联的所有属性
+     */
+    @GetMapping("/{attrgroupId}/attr/relation")
+    public R attrRelationList(@RequestParam Map<String, Object> params,
+                              @PathVariable("attrgroupId") Long attrgroupId) {
+
+        List<AttrEntity> attrEntityList = attrService.getRelationAttr(attrgroupId);
+        return R.ok().put("data", attrEntityList);
+    }
 
     /**
      * 列表
