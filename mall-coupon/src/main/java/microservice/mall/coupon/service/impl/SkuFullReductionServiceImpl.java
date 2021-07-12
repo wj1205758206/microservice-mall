@@ -1,7 +1,20 @@
 package microservice.mall.coupon.service.impl;
 
+import microservice.mall.common.to.MemberPrice;
+import microservice.mall.common.to.SkuReductionTo;
+import microservice.mall.coupon.entity.MemberPriceEntity;
+import microservice.mall.coupon.entity.SkuLadderEntity;
+import microservice.mall.coupon.service.MemberPriceService;
+import microservice.mall.coupon.service.SkuLadderService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -16,6 +29,15 @@ import microservice.mall.coupon.service.SkuFullReductionService;
 @Service("skuFullReductionService")
 public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionDao, SkuFullReductionEntity> implements SkuFullReductionService {
 
+    @Autowired
+    private SkuLadderService skuLadderService;
+
+    @Autowired
+    private SkuFullReductionService skuFullReductionService;
+
+    @Autowired
+    private MemberPriceService memberPriceService;
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SkuFullReductionEntity> page = this.page(
@@ -24,6 +46,42 @@ public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionDao
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public void saveSkuReduction(SkuReductionTo skuReductionTo) {
+        //保存sku的优惠、满减等信息 mall_sms --> sms_sku_ladder\sms_sku_full_reduction\sms_member_price等
+        SkuLadderEntity skuLadderEntity = new SkuLadderEntity();
+        BeanUtils.copyProperties(skuReductionTo, skuLadderEntity);
+        skuLadderEntity.setAddOther(skuReductionTo.getCountStatus());
+        if (skuReductionTo.getFullCount() > 0) {
+            skuLadderService.save(skuLadderEntity);
+        }
+
+        SkuFullReductionEntity skuFullReductionEntity = new SkuFullReductionEntity();
+        BeanUtils.copyProperties(skuReductionTo, skuFullReductionEntity);
+        skuFullReductionEntity.setAddOther(skuReductionTo.getCountStatus());
+        if (skuReductionTo.getFullPrice().compareTo(new BigDecimal(0)) == 1) {
+            skuFullReductionService.save(skuFullReductionEntity);
+        }
+
+
+        List<MemberPrice> memberPriceList = skuReductionTo.getMemberPrice();
+        List<MemberPriceEntity> memberPriceEntities = memberPriceList.stream().map((item) -> {
+            MemberPriceEntity memberPriceEntity = new MemberPriceEntity();
+            memberPriceEntity.setMemberLevelName(item.getName());
+            memberPriceEntity.setMemberPrice(item.getPrice());
+            memberPriceEntity.setSkuId(skuReductionTo.getSkuId());
+            memberPriceEntity.setMemberLevelId(item.getId());
+            memberPriceEntity.setAddOther(1);
+
+            return memberPriceEntity;
+        }).filter(item -> {
+            return item.getMemberPrice().compareTo(new BigDecimal(0)) == 1;
+        }).collect(Collectors.toList());
+
+        memberPriceService.saveBatch(memberPriceEntities);
+
     }
 
 }
