@@ -3,6 +3,7 @@ package microservice.mall.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import microservice.mall.product.vo.SpuSaveVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,8 +60,8 @@ public class SpuInfoController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("product:spuinfo:save")
-    public R save(@RequestBody SpuInfoEntity spuInfo){
-		spuInfoService.save(spuInfo);
+    public R save(@RequestBody SpuSaveVo vo){
+		//spuInfoService.save(spuInfo);
 
         return R.ok();
     }
