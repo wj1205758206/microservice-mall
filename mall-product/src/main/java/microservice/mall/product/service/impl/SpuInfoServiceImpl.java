@@ -27,6 +27,7 @@ import microservice.mall.common.utils.Query;
 import microservice.mall.product.dao.SpuInfoDao;
 import microservice.mall.product.entity.SpuInfoEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 
 @Service("spuInfoService")
@@ -99,6 +100,38 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     @Override
     public void saveBaseSpuInfo(SpuInfoEntity spuInfoEntity) {
         this.baseMapper.insert(spuInfoEntity);
+    }
+
+    @Override
+    public PageUtils queryPageByCondition(Map<String, Object> params) {
+
+        QueryWrapper<SpuInfoEntity> spuInfoEntityQueryWrapper = new QueryWrapper<>();
+        String key = (String) params.get("key");
+        if (!StringUtils.isEmpty(key)) {
+            spuInfoEntityQueryWrapper.and((wrapper) -> {
+                wrapper.eq("id", key).or().like("spu_name", key);
+            });
+        }
+        String status = (String) params.get("status");
+        if (!StringUtils.isEmpty(status)) {
+            spuInfoEntityQueryWrapper.eq("publish_status", status);
+        }
+        String catelogId = (String) params.get("catelogId");
+        if (!StringUtils.isEmpty(catelogId)) {
+            spuInfoEntityQueryWrapper.eq("catalog_id", catelogId);
+        }
+        String brandId = (String) params.get("brandId");
+        if (!StringUtils.isEmpty(brandId)) {
+            spuInfoEntityQueryWrapper.eq("brand_id", brandId);
+        }
+
+        IPage<SpuInfoEntity> page = this.page(
+                new Query<SpuInfoEntity>().getPage(params),
+                spuInfoEntityQueryWrapper
+        );
+
+        return new PageUtils(page);
+
     }
 
 
