@@ -3,7 +3,10 @@ package microservice.mall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import microservice.mall.common.utils.PageUtils;
 import microservice.mall.product.entity.SkuInfoEntity;
+import microservice.mall.product.entity.SpuInfoEntity;
+import microservice.mall.product.vo.Skus;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +19,9 @@ import java.util.Map;
 public interface SkuInfoService extends IService<SkuInfoEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void saveSkuInfo(SpuInfoEntity spuInfoEntity, List<Skus> skus);
+
+    PageUtils queryPageByCondition(Map<String, Object> params);
 }
 

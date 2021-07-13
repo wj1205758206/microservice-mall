@@ -1,6 +1,7 @@
 package microservice.mall.coupon.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import microservice.mall.common.to.SkuReductionTo;
 import microservice.mall.common.utils.PageUtils;
 import microservice.mall.coupon.entity.SkuFullReductionEntity;
 
@@ -16,5 +17,7 @@ import java.util.Map;
 public interface SkuFullReductionService extends IService<SkuFullReductionEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void saveSkuReduction(SkuReductionTo skuReductionTo);
 }
 
