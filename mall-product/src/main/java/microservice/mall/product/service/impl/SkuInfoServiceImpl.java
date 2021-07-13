@@ -30,6 +30,8 @@ import microservice.mall.product.entity.SkuInfoEntity;
 import microservice.mall.product.service.SkuInfoService;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
+
 
 @Service("skuInfoService")
 public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> implements SkuInfoService {
@@ -40,7 +42,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
     @Autowired
     private SkuSaleAttrValueService skuSaleAttrValueService;
 
-    @Autowired
+    @Resource
     private CouponFeignService couponFeignService;
 
 
