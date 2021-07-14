@@ -1,7 +1,11 @@
 package microservice.mall.ware.service.impl;
 
+import microservice.mall.common.utils.R;
+import microservice.mall.ware.feign.ProductFeignService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -13,11 +17,20 @@ import microservice.mall.common.utils.Query;
 import microservice.mall.ware.dao.WareSkuDao;
 import microservice.mall.ware.entity.WareSkuEntity;
 import microservice.mall.ware.service.WareSkuService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import javax.annotation.Resource;
 
 
 @Service("wareSkuService")
 public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> implements WareSkuService {
+
+    @Resource
+    private WareSkuDao wareSkuDao;
+
+    @Resource
+    private ProductFeignService productFeignService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -39,6 +52,36 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
         );
 
         return new PageUtils(page);
+    }
+
+    @Transactional
+    @Override
+    public void addStock(Long skuId, Long wareId, Integer skuNum) {
+        List<WareSkuEntity> wareSkuEntities = this.baseMapper.selectList(new QueryWrapper<WareSkuEntity>()
+                .eq("sku_id", skuId)
+                .eq("ware_id", wareId));
+        if (wareSkuEntities.size() == 0 || wareSkuEntities == null) {
+            WareSkuEntity wareSkuEntity = new WareSkuEntity();
+            wareSkuEntity.setWareId(wareId);
+            wareSkuEntity.setSkuId(skuId);
+            wareSkuEntity.setStock(skuNum);
+            wareSkuEntity.setStockLocked(0);
+
+            try {
+                R info = productFeignService.info(skuId);
+                Map<String, Object> skuInfo = (Map<String, Object>) info.get("skuInfo");
+                if (info.get("code").equals(0)){
+                    wareSkuEntity.setSkuName((String) skuInfo.get("skuName"));
+                }
+
+            } catch (Exception e) {
+
+            }
+            wareSkuDao.insert(wareSkuEntity);
+        } else {
+            wareSkuDao.addStock(skuId, wareId, skuNum);
+        }
+
     }
 
 }

@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import microservice.mall.common.utils.PageUtils;
 import microservice.mall.ware.entity.PurchaseEntity;
 import microservice.mall.ware.vo.MergeVo;
+import microservice.mall.ware.vo.PurchaseDoneVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,5 +23,9 @@ public interface PurchaseService extends IService<PurchaseEntity> {
     PageUtils queryUnreceive(Map<String, Object> params);
 
     void mergePurchase(MergeVo mergeVo);
+
+    void received(List<Long> ids);
+
+    void done(PurchaseDoneVo purchaseDoneVo);
 }
 
