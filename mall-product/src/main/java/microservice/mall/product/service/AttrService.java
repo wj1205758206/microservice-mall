@@ -3,6 +3,7 @@ package microservice.mall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import microservice.mall.common.utils.PageUtils;
 import microservice.mall.product.entity.AttrEntity;
+import microservice.mall.product.entity.ProductAttrValueEntity;
 import microservice.mall.product.vo.AttrGroupRelationVo;
 import microservice.mall.product.vo.AttrRespVo;
 import microservice.mall.product.vo.AttrVo;
@@ -34,5 +35,7 @@ public interface AttrService extends IService<AttrEntity> {
     void deleteRelation(AttrGroupRelationVo[] vos);
 
     PageUtils getNoRelationAttr(Map<String, Object> params, Long attrgroupId);
+
+
 }
 

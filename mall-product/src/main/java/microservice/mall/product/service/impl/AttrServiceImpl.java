@@ -1,7 +1,6 @@
 package microservice.mall.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import microservice.mall.common.constant.ProductConstant;
 import microservice.mall.product.dao.AttrAttrgroupRelationDao;
 import microservice.mall.product.dao.AttrGroupDao;
@@ -270,6 +269,8 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
         return new PageUtils(page);
     }
+
+
 
   /*  public PageUtils getNoRelationAttr(Map<String, Object> params, Long attrgroupId) {
         //当前分组只能关联自己所属的分类里面的属性

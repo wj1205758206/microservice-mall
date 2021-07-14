@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import microservice.mall.common.utils.PageUtils;
 import microservice.mall.common.utils.R;
 import microservice.mall.product.entity.AttrEntity;
+import microservice.mall.product.entity.ProductAttrValueEntity;
 import microservice.mall.product.service.AttrService;
+import microservice.mall.product.service.ProductAttrValueService;
 import microservice.mall.product.vo.AttrRespVo;
 import microservice.mall.product.vo.AttrVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -13,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -28,6 +31,32 @@ import java.util.Map;
 public class AttrController {
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    private ProductAttrValueService productAttrValueService;
+
+    /**
+     * 修改Spu规格列表信息
+     */
+    @PostMapping("/update/{spuId}")
+    //@RequiresPermissions("product:attr:update")
+    public R updatBaseAttrListForSpu(@PathVariable("spuId") Long spuId,
+                                     @RequestBody List<ProductAttrValueEntity> entities) {
+        productAttrValueService.updatBaseAttrListForSpu(spuId, entities);
+
+        return R.ok();
+    }
+
+    /**
+     * 获取Spu规格列表信息
+     */
+    @GetMapping("/base/listforspu/{spuId}")
+    public R baseAttrListForSpu(@PathVariable("spuId") Long spuId) {
+
+        List<ProductAttrValueEntity> entities = productAttrValueService.baseAttrListForSpu(spuId);
+        return R.ok().put("data", entities);
+    }
+
 
     /**
      * 列表

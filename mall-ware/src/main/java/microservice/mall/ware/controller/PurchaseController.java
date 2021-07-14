@@ -2,16 +2,14 @@ package microservice.mall.ware.controller;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import microservice.mall.ware.vo.MergeVo;
+import microservice.mall.ware.vo.PurchaseDoneVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import microservice.mall.ware.entity.PurchaseEntity;
 import microservice.mall.ware.service.PurchaseService;
@@ -33,7 +31,29 @@ public class PurchaseController {
     private PurchaseService purchaseService;
 
     /**
-     *
+     * 完成采购
+     */
+    @PostMapping("/done")
+    //@RequiresPermissions("ware:purchase:list")
+    public R finish(@RequestBody PurchaseDoneVo purchaseDoneVo) {
+        purchaseService.done(purchaseDoneVo);
+
+        return R.ok();
+    }
+
+    /**
+     * 领取采购单
+     */
+    @PostMapping("/received")
+    //@RequiresPermissions("ware:purchase:list")
+    public R received(@RequestBody List<Long> ids) {
+        purchaseService.received(ids);
+
+        return R.ok();
+    }
+
+    /**
+     * 合并采购需求
      */
     @RequestMapping("/merge")
     //@RequiresPermissions("ware:purchase:list")
