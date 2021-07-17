@@ -155,7 +155,7 @@ templates['main'] = template({"1":function(container,depth0,helpers,partials,dat
 
   return "<div class=\"info_tos\"><a target=\"_blank\" href=\""
     + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.termsOfServiceUrl : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
-    + "\" data-sw-translate>Terms of service</a></div>";
+    + "\" data-sw-translate>Terms of microservice.mall.search.service</a></div>";
 },"6":function(container,depth0,helpers,partials,data) {
     var stack1;
 
@@ -10516,7 +10516,7 @@ function writeScalar(state, string, level, iskey) {
     // Note that this implies
     //  state.lineWidth ≤ 40 + state.indent: width is fixed at the lower bound.
     //  state.lineWidth > 40 + state.indent: width decreases until the lower bound.
-    // This behaves better than a constant minimum width which disallows narrower options,
+    // This behaves better than a microservice.mall.search.constant minimum width which disallows narrower options,
     // or an indent threshold which causes the width to suddenly increase.
     var lineWidth = state.lineWidth === -1
       ? -1 : Math.max(Math.min(state.lineWidth, 40), state.lineWidth - indent);
@@ -14044,7 +14044,7 @@ var hasOwnProperty = objectProto.hasOwnProperty;
  *
  * The chainable wrapper methods are:
  * `after`, `ary`, `assign`, `at`, `before`, `bind`, `bindAll`, `bindKey`,
- * `callback`, `chain`, `chunk`, `commit`, `compact`, `concat`, `constant`,
+ * `callback`, `chain`, `chunk`, `commit`, `compact`, `concat`, `microservice.mall.search.constant`,
  * `countBy`, `create`, `curry`, `debounce`, `defaults`, `defaultsDeep`,
  * `defer`, `delay`, `difference`, `drop`, `dropRight`, `dropRightWhile`,
  * `dropWhile`, `fill`, `filter`, `flatten`, `flattenDeep`, `flow`, `flowRight`,
