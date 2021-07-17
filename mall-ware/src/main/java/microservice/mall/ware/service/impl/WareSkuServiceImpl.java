@@ -1,12 +1,14 @@
 package microservice.mall.ware.service.impl;
 
+import microservice.mall.common.to.SkuHasStockTo;
 import microservice.mall.common.utils.R;
 import microservice.mall.ware.feign.ProductFeignService;
-import org.springframework.beans.factory.annotation.Autowired;
+import microservice.mall.ware.vo.SkuHasStockVo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -70,7 +72,7 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             try {
                 R info = productFeignService.info(skuId);
                 Map<String, Object> skuInfo = (Map<String, Object>) info.get("skuInfo");
-                if (info.get("code").equals(0)){
+                if (info.get("code").equals(0)) {
                     wareSkuEntity.setSkuName((String) skuInfo.get("skuName"));
                 }
 
@@ -82,6 +84,21 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             wareSkuDao.addStock(skuId, wareId, skuNum);
         }
 
+    }
+
+    @Override
+    public List<SkuHasStockTo> getSkusHasStock(List<Long> skuIds) {
+
+        List<SkuHasStockVo> vos = skuIds.stream().map((skuId) -> {
+            SkuHasStockVo skuHasStockVo = new SkuHasStockVo();
+            Long count = this.baseMapper.getSkuStock(skuId);
+            skuHasStockVo.setSkuId(skuId);
+            skuHasStockVo.setHasStock(count == null ? false : count > 0);
+
+            return skuHasStockVo;
+        }).collect(Collectors.toList());
+
+        return vos;
     }
 
 }

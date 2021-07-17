@@ -314,15 +314,15 @@ public class GenUtils {
         }
 
         if (template.contains("Service.java.vm")) {
-            return packagePath + "service" + File.separator + className + "Service.java";
+            return packagePath + "microservice.mall.search.service" + File.separator + className + "Service.java";
         }
 
         if (template.contains("ServiceImpl.java.vm")) {
-            return packagePath + "service" + File.separator + "impl" + File.separator + className + "ServiceImpl.java";
+            return packagePath + "microservice.mall.search.service" + File.separator + "impl" + File.separator + className + "ServiceImpl.java";
         }
 
         if (template.contains("Controller.java.vm")) {
-            return packagePath + "controller" + File.separator + className + "Controller.java";
+            return packagePath + "microservice.mall.search.controller" + File.separator + className + "Controller.java";
         }
 
         if (template.contains("Dao.xml.vm")) {

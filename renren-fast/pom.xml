@@ -43,7 +43,7 @@
         <lombok.version>1.18.4</lombok.version>
 
         <!--wagon plugin 配置-->
-        <service-path>/work/renren</service-path>
+        <microservice.mall.search.service-path>/work/renren</microservice.mall.search.service-path>
         <pack-name>${project.artifactId}-${project.version}.jar</pack-name>
         <remote-addr>192.168.1.10:22</remote-addr>
         <remote-username>root</remote-username>
@@ -270,14 +270,14 @@
                 <version>1.0</version>
                 <configuration>
                     <fromFile>target/${pack-name}</fromFile>
-                    <url><![CDATA[scp://${remote-username}:${remote-passwd}@${remote-addr}${service-path}]]></url>
+                    <url><![CDATA[scp://${remote-username}:${remote-passwd}@${remote-addr}${microservice.mall.search.service-path}]]></url>
                     <commands>
                         <!-- Kill Old Process -->
                         <command>kill -9 `ps -ef |grep ${project.artifactId}.jar|grep -v "grep" |awk '{print $2}'`
                         </command>
                         <!-- Restart jar package，write result into renren.log -->
                         <command>
-                            <![CDATA[nohup java -jar ${service-path}/${pack-name} --spring.profiles.active=test > ${service-path}/renren.log 2>&1 & ]]></command>
+                            <![CDATA[nohup java -jar ${microservice.mall.search.service-path}/${pack-name} --spring.profiles.active=test > ${microservice.mall.search.service-path}/renren.log 2>&1 & ]]></command>
                         <command><![CDATA[netstat -nptl]]></command>
                         <command><![CDATA[ps -ef | grep java | grep -v grep]]></command>
                     </commands>

@@ -1,6 +1,6 @@
-package ${package}.${moduleName}.service;
+package ${package}.${moduleName}.microservice.mall.search.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.extension.microservice.mall.search.service.IService;
 import ${mainPath}.common.utils.PageUtils;
 import ${package}.${moduleName}.entity.${className}Entity;
 

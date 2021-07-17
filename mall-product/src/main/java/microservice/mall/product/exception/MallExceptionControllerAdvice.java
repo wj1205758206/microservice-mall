@@ -16,7 +16,7 @@ import java.util.Map;
  * 集中处理所有异常
  */
 @Slf4j
-@RestControllerAdvice(basePackages = "microservice.mall.product.controller")
+@RestControllerAdvice(basePackages = "microservice.mall.product.microservice.mall.search.controller")
 public class MallExceptionControllerAdvice {
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)

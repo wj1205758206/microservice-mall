@@ -1,4 +1,4 @@
-package config;
+package microservice.mall.search.config;
 
 
 import org.apache.http.HttpHost;

@@ -270,6 +270,12 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         return new PageUtils(page);
     }
 
+    @Override
+    public List<Long> selectSearchAttrs(List<Long> attrIds) {
+
+        return this.baseMapper.selectSearchAttrIds(attrIds);
+    }
+
 
 
   /*  public PageUtils getNoRelationAttr(Map<String, Object> params, Long attrgroupId) {
