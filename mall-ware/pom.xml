@@ -8,13 +8,18 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>microservice.mall</groupId>
     <artifactId>mall-ware</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>mall-ware</name>
     <description>商城的存储微服务</description>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-high-level-client -->
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>7.4.2</version>
+        </dependency>
+
+
         <dependency>
             <groupId>microservice.mall</groupId>
             <artifactId>mall-common</artifactId>
