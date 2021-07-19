@@ -37,7 +37,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
             //加了ApiOperation注解的类，才生成接口文档
             .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
             //包下的类，才生成接口文档
-            //.apis(RequestHandlerSelectors.basePackage("io.renren.microservice.mall.search.controller"))
+            //.apis(RequestHandlerSelectors.basePackage("io.renren.microservice.mall.search.app"))
             .paths(PathSelectors.any())
             .build()
             .securitySchemes(security());
