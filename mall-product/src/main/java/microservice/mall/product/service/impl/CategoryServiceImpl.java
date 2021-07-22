@@ -1,9 +1,12 @@
 package microservice.mall.product.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import microservice.mall.product.service.CategoryBrandRelationService;
 import microservice.mall.product.vo.Catelog2Vo;
 import microservice.mall.product.vo.Catelog3Vo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,6 +32,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -104,6 +110,21 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     @Override
     public Map<String, List<Catelog2Vo>> getCatalogJson() {
+        //使用redis缓存，改造查询三级分类业务
+        String catalogJSON = stringRedisTemplate.opsForValue().get("catalogJSON");
+        if (StringUtils.isEmpty(catalogJSON)) {
+            Map<String, List<Catelog2Vo>> catalogJsonFromDB = getCatalogJsonFromDB();
+            String s = JSON.toJSONString(catalogJsonFromDB);
+            stringRedisTemplate.opsForValue().set("catalogJSON", s);
+            return catalogJsonFromDB;
+        }
+        Map<String, List<Catelog2Vo>> result = JSON.parseObject(catalogJSON, new TypeReference<Map<String, List<Catelog2Vo>>>() {
+        });
+
+        return result;
+    }
+
+    public Map<String, List<Catelog2Vo>> getCatalogJsonFromDB() {
         List<CategoryEntity> selectList = this.baseMapper.selectList(null);
 
 
